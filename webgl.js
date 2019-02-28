@@ -10,12 +10,15 @@ global.THREE = require('three');
 require('three/examples/js/controls/OrbitControls');
 
 const settings = {
+  dimensions: [512,512],
+  fps: 25,
+  duration:4,
   // Make the loop animated
   animate: true,
   // Get a WebGL canvas rather than 2D
   context: 'webgl',
   // Turn on MSAA
-  attributes: { antialias: true }
+  attributes: { antialias: true },
 };
 
 const sketch = ({ context }) => {
@@ -61,7 +64,7 @@ for (let i = 0; i < 40; i++) {
   scene.add(mesh);
   
 }
-  scene.add(new THREE.AmbientLight('hsl(0, 0%, 1%'));
+  scene.add(new THREE.AmbientLight('hsl(360, 0%, 55%)'));
   const light = new THREE.DirectionalLight('white', 1);
   light.position.set(2,2,4)
   scene.add(light)
@@ -107,7 +110,8 @@ for (let i = 0; i < 40; i++) {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render ({ time }) {
+    render ({ playhead }) {
+      scene.rotation.y = playhead * Math.PI * 2;
       renderer.render(scene, camera);
     },
     // Dispose of events & renderer for cleaner hot-reloading
